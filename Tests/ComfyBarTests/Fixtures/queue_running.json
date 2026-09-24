@@ -1,0 +1,87 @@
+{
+ "queue_running": [
+  [
+   24,
+   "2f4f18bc-51c6-4b47-bc40-cac956324c0f",
+   {
+    "395": {
+     "class_type": "LoadImage",
+     "inputs": {
+      "image": "sample_input_0001.jpg"
+     }
+    },
+    "75": {
+     "class_type": "SaveVideo",
+     "inputs": {
+      "filename_prefix": "renders/scene1081_b",
+      "format": "auto",
+      "format.codec": "auto",
+      "video": [
+       "398:370",
+       0
+      ]
+     }
+    },
+    "398:344": {
+     "class_type": "SamplerCustomAdvanced",
+     "inputs": {
+      "noise": [
+       "398:339",
+       0
+      ],
+      "guider": [
+       "398:388",
+       0
+      ],
+      "sampler": [
+       "398:352",
+       0
+      ],
+      "sigmas": [
+       "398:397",
+       0
+      ],
+      "latent_image": [
+       "398:357",
+       0
+      ]
+     }
+    },
+    "398:368": {
+     "class_type": "SamplerCustomAdvanced",
+     "inputs": {
+      "noise": [
+       "398:338",
+       0
+      ],
+      "guider": [
+       "398:391",
+       0
+      ],
+      "sampler": [
+       "398:341",
+       0
+      ],
+      "sigmas": [
+       "398:396",
+       0
+      ],
+      "latent_image": [
+       "398:349",
+       0
+      ]
+     }
+    }
+   },
+   {
+    "client_id": "b9079a91-1347-4dd9-b7c5-77fced71b566",
+    "create_time": 1790239413670
+   },
+   [
+    "398:381",
+    "75"
+   ]
+  ]
+ ],
+ "queue_pending": []
+}

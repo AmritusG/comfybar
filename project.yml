@@ -1,0 +1,77 @@
+name: ComfyBar
+options:
+  bundleIdPrefix: com.amritus
+  createIntermediateGroups: true
+  deploymentTarget:
+    macOS: "14.0"
+  groupSortPosition: top
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: "3A3L2C6DFB"
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: YES
+    GENERATE_INFOPLIST_FILE: NO
+    DEAD_CODE_STRIPPING: YES
+
+targets:
+  # ------------------------------------------------------------------ menu-bar app
+  ComfyBar:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/ComfyBar
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.amritus.comfybar
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_FILE: Sources/ComfyBar/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Sources/ComfyBar/ComfyBar.entitlements
+        CODE_SIGN_STYLE: Manual
+        # Developer ID for Release (maintainer builds; scripts/signing.sh falls back to ad-hoc); Apple Development for Debug.
+        CODE_SIGN_IDENTITY: "Developer ID Application"
+        OTHER_CODE_SIGN_FLAGS: "--timestamp"
+      configs:
+        Debug:
+          CODE_SIGN_IDENTITY: "Apple Development"
+          OTHER_CODE_SIGN_FLAGS: ""
+        Release:
+          # xcodebuild otherwise injects com.apple.security.get-task-allow (a debugging
+          # entitlement) even into Release builds, and notarisation rejects it.
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+
+  # --------------------------------------------------------------------- unit tests
+  # Hostless: compiles the pure Core/System sources directly so tests never launch
+  # the app (and so never touch a live ComfyUI).
+  ComfyBarTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/ComfyBarTests
+        excludes:
+          - "Fixtures/**"
+      - path: Tests/ComfyBarTests/Fixtures
+        buildPhase: resources
+        type: folder
+      - path: Sources/ComfyBar/Core
+      - path: Sources/ComfyBar/System
+      - path: assets/ComfyBar-2f-nest-balanced-menubar.svg
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.amritus.comfybar.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+
+schemes:
+  ComfyBar:
+    build:
+      targets:
+        ComfyBar: all
+        ComfyBarTests: [test]
+    test:
+      targets:
+        - ComfyBarTests

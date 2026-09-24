@@ -1,0 +1,15 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Unit tests (ad-hoc signed)
+        run: SIGN=adhoc ./scripts/test.sh | tee test.log && grep -q "TEST SUCCEEDED" test.log
+      - name: Release build (ad-hoc signed)
+        run: SIGN=adhoc ./scripts/build.sh

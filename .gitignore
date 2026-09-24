@@ -1,0 +1,6 @@
+build/
+ComfyBar.app
+ComfyBar.xcodeproj/
+*.xcuserstate
+xcuserdata/
+.DS_Store
