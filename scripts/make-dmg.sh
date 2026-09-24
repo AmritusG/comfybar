@@ -14,7 +14,9 @@ ditto "$APP" "$STAGE/ComfyBar.app"
 ln -s /Applications "$STAGE/Applications"
 rm -f "$DMG"
 hdiutil create -volname "ComfyBar $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null
-IDENTITY=$(security find-identity -v -p codesigning | awk -F'"' '/Developer ID Application: .*\(3A3L2C6DFB\)/{print $2; exit}')
+IDENTITIES=$(security find-identity -v -p codesigning)
+IDENTITY=$(awk -F'"' '/Developer ID Application: .*\(3A3L2C6DFB\)/{print $2}' <<<"$IDENTITIES" | head -1)
+[ -n "$IDENTITY" ] || { echo "No Developer ID Application identity for team 3A3L2C6DFB in the keychain."; exit 1; }
 codesign --sign "$IDENTITY" --timestamp "$DMG"
 xcrun notarytool submit "$DMG" --keychain-profile "$PROFILE" --wait
 xcrun stapler staple "$DMG"

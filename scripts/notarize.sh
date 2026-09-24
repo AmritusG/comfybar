@@ -12,7 +12,9 @@ cd "$ROOT"
 PROFILE="${NOTARY_PROFILE:-ComfyBarNotary}"
 APP=ComfyBar.app
 [ -d "$APP" ] || { echo "Build first: scripts/build.sh"; exit 1; }
-codesign -dvv "$APP" 2>&1 | grep -q "Authority=Developer ID Application" \
+# (captured first: piping straight into grep -q trips pipefail with SIGPIPE)
+SIGNING=$(codesign -dvv "$APP" 2>&1 || true)
+grep -q "Authority=Developer ID Application" <<<"$SIGNING" \
   || { echo "ComfyBar.app is not Developer ID signed - notarisation would be rejected."; exit 1; }
 xcrun notarytool history --keychain-profile "$PROFILE" >/dev/null 2>&1 \
   || { echo "No working notarytool profile '$PROFILE' - see the setup note at the top of this script."; exit 1; }

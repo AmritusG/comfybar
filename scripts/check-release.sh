@@ -13,7 +13,7 @@ echo "== app bundle"
 [ -d "$APP" ] || { echo "  FAIL  $APP missing - run scripts/build.sh"; exit 1; }
 codesign --verify --deep --strict "$APP" 2>/dev/null && ok "signature valid (deep, strict)" || bad "codesign --verify"
 info=$(codesign -dv --verbose=4 "$APP" 2>&1)
-echo "$info" | grep -q "Authority=Developer ID Application" && ok "Developer ID Application" || bad "not signed with Developer ID (ad-hoc builds cannot be notarised)"
+grep -q "Authority=Developer ID Application" <<<"$info" && ok "Developer ID Application" || bad "not signed with Developer ID (ad-hoc builds cannot be notarised)"
 echo "$info" | grep -q "^Timestamp=" && ok "secure timestamp" || bad "no secure timestamp"
 echo "$info" | grep -Eq "flags=.*runtime" && ok "hardened runtime" || bad "hardened runtime off"
 ents=$(codesign -d --entitlements - --xml "$APP" 2>/dev/null)
