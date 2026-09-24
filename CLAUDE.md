@@ -92,8 +92,9 @@ unchanged, so they are not saved by accident.
 ```
 ./scripts/cleanup.sh && ./scripts/build.sh && ./scripts/cleanup.sh   # Developer ID signed
 ./scripts/check-release.sh        # read-only pre-flight: signing, runtime, tree, personal data
-./scripts/notarize.sh             # needs a notarytool profile (see the script header)
-./scripts/make-dmg.sh             # signed, notarised, stapled DMG + .sha256 in build/
-./scripts/release.sh --yes        # tag + GitHub release (publishes!)
+NOTARY_PROFILE=amritus-notary ./scripts/notarize.sh   # maintainer's keychain profile (see the script header)
+NOTARY_PROFILE=amritus-notary ./scripts/make-dmg.sh   # signed, notarised, stapled DMG + .sha256 in build/
+./scripts/release.sh --yes        # tag + GitHub release (publishes!) - bump MARKETING_VERSION first
+# v0.1.0 released 2026-09-24: https://github.com/AmritusG/comfybar/releases/tag/v0.1.0
 ```
 Contributors without the Developer ID get ad-hoc signed builds automatically (scripts/signing.sh).
