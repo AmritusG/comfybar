@@ -67,6 +67,13 @@ scale and rasterise only - never redraw, re-proportion or recolour it.
 - `Sources/ComfyBar/UI` - status item, glyph renderer, panel, Settings, Debug.
 - `Tests/ComfyBarTests` - unit tests on payloads recorded from a real ComfyUI 0.34.0 (`Fixtures/`, personal names removed).
 
+## Repository
+- `origin` = https://github.com/AmritusG/comfybar (PUBLIC). Local `main` tracks it. Commit
+  as `AmritusG <165056603+AmritusG@users.noreply.github.com>` (set in this repo's git config).
+- `dev` = AmritusG/comfybar-dev (PRIVATE): the pre-release history, including test data and
+  paths that must not be published. Local branch `dev-archive` tracks it. Never push it to
+  `origin`.
+
 ## Build / test / run
 ```
 ./scripts/cleanup.sh && ./scripts/build.sh && ./scripts/cleanup.sh   # -> ./ComfyBar.app (Release, Developer ID)
