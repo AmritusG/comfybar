@@ -21,5 +21,5 @@ codesign --sign "$IDENTITY" --timestamp "$DMG"
 xcrun notarytool submit "$DMG" --keychain-profile "$PROFILE" --wait
 xcrun stapler staple "$DMG"
 spctl --assess --type open --context context:primary-signature --verbose "$DMG"
-shasum -a 256 "$DMG" | tee "$DMG.sha256"
+(cd build && shasum -a 256 "$(basename "$DMG")") | tee "$DMG.sha256"
 echo "DMG: $ROOT/$DMG"
